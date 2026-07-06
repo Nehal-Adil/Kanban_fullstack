@@ -8,6 +8,7 @@ import { UsersModule } from './modules/users/users.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { typeOrmConfig } from './config/database.config';
+import { BoardsModule } from './modules/boards/boards.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { typeOrmConfig } from './config/database.config';
     }),
     AuthModule,
     UsersModule,
+    BoardsModule,
   ],
   controllers: [AppController, UsersController],
   providers: [AppService, UsersService],

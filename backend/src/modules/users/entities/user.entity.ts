@@ -2,10 +2,13 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  ManyToMany,
+  OneToMany,
   PrimaryGeneratedColumn,
   Unique,
   UpdateDateColumn,
 } from 'typeorm';
+import { Board } from '../../boards/entities/board.entity';
 
 @Entity('users')
 @Unique(['email'])
@@ -36,4 +39,12 @@ export class User {
 
   @UpdateDateColumn()
   updatedAt?: Date;
+
+  // One user has many boards (owner)
+  @OneToMany(() => Board, (board) => board.owner, { cascade: true })
+  ownedBoards!: Board[];
+
+  // Many-to-Many: User can be member of many boards
+  @ManyToMany(() => Board, (board) => board.members)
+  boards!: Board[];
 }
