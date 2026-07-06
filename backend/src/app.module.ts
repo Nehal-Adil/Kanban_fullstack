@@ -9,6 +9,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { typeOrmConfig } from './config/database.config';
 import { BoardsModule } from './modules/boards/boards.module';
+import { ColumnsController } from './modules/columns/columns.controller';
+import { ColumnsModule } from './modules/columns/columns.module';
 
 @Module({
   imports: [
@@ -23,8 +25,9 @@ import { BoardsModule } from './modules/boards/boards.module';
     AuthModule,
     UsersModule,
     BoardsModule,
+    ColumnsModule,
   ],
-  controllers: [AppController, UsersController],
+  controllers: [AppController, UsersController, ColumnsController],
   providers: [AppService, UsersService],
 })
 export class AppModule {}

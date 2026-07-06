@@ -11,6 +11,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { User } from '../../users/entities/user.entity';
+import { KanbanColumn } from '../../columns/entities/column.entity';
 
 @Entity('boards')
 export class Board {
@@ -42,6 +43,10 @@ export class Board {
     inverseJoinColumn: { name: 'userId', referencedColumnName: 'id' },
   })
   members!: User[];
+
+  // One board has many columns
+  @OneToMany(() => KanbanColumn, (column) => column.board, { cascade: true })
+  columns!: KanbanColumn[];
 
   @CreateDateColumn()
   createdAt!: Date;
