@@ -1,0 +1,5 @@
+function LoginPage() {
+  return <div className="p-8">LoginPage</div>;
+}
+
+export default LoginPage;
