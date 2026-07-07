@@ -5,8 +5,10 @@ import {
   ManyToOne,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToMany,
 } from 'typeorm';
 import { Board } from '../../boards/entities/board.entity';
+import { Task } from '../../tasks/entities/task.entity';
 
 @Entity('columns')
 export class KanbanColumn {
@@ -25,6 +27,10 @@ export class KanbanColumn {
 
   @Column('uuid')
   boardId!: string;
+
+  // One column has many tasks
+  @OneToMany(() => Task, (task) => task.column, { cascade: true })
+  tasks?: Task[];
 
   @CreateDateColumn()
   createdAt!: Date;

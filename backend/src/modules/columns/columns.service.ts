@@ -43,7 +43,7 @@ export class ColumnsService {
     return this.columnRepository.find({
       where: { boardId },
       order: { position: 'ASC' },
-      // relations: {tasks: true}
+      relations: { tasks: true },
     });
   }
 
@@ -51,7 +51,7 @@ export class ColumnsService {
   async findById(id: string): Promise<Column> {
     const column = await this.columnRepository.findOne({
       where: { id },
-      // relations: { tasks: true }
+      relations: { tasks: true },
     });
     if (!column) {
       throw new NotFoundException('Column not found');

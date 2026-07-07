@@ -11,6 +11,8 @@ import { typeOrmConfig } from './config/database.config';
 import { BoardsModule } from './modules/boards/boards.module';
 import { ColumnsController } from './modules/columns/columns.controller';
 import { ColumnsModule } from './modules/columns/columns.module';
+import { TasksService } from './modules/tasks/tasks.service';
+import { TasksModule } from './modules/tasks/tasks.module';
 
 @Module({
   imports: [
@@ -26,8 +28,9 @@ import { ColumnsModule } from './modules/columns/columns.module';
     UsersModule,
     BoardsModule,
     ColumnsModule,
+    TasksModule,
   ],
   controllers: [AppController, UsersController, ColumnsController],
-  providers: [AppService, UsersService],
+  providers: [AppService, UsersService, TasksService],
 })
 export class AppModule {}
