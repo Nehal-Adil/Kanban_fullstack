@@ -7,11 +7,16 @@ import { authService } from "../../services/auth";
 import toast from "react-hot-toast";
 
 const registerSchema = z.object({
-  email: z.email("Invalid email"),
+  email: z.email({ error: "Invalid email" }),
   firstName: z.string().optional(),
   lastName: z.string().optional(),
-  password: z.string().min(6, "Password must be at least 6 characters"),
+  password: z
+    .string()
+    .min(6, { error: "Password must be at least 6 characters" }),
 });
+
+// It automatically generates a static TypeScript type based on your runtime Zod validation schema so you don't have to write the type definitions twice.
+type RegisterFormData = z.infer<typeof registerSchema>;
 
 function RegisterForm() {
   const navigate = useNavigate();
@@ -24,7 +29,7 @@ function RegisterForm() {
     resolver: zodResolver(registerSchema),
   });
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: RegisterFormData) => {
     try {
       const response = await authService.register(data);
       setAuth(response.user, response.accessToken);

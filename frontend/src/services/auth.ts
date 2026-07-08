@@ -3,8 +3,8 @@ import { axiosClient } from "./api";
 
 interface RegisterData {
   email: string;
-  firstName: string;
-  lastName: string;
+  firstName?: string;
+  lastName?: string;
   password: string;
 }
 
