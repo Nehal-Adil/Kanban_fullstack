@@ -30,7 +30,7 @@ import { TasksModule } from './modules/tasks/tasks.module';
     ColumnsModule,
     TasksModule,
   ],
-  controllers: [AppController, UsersController, ColumnsController],
-  providers: [AppService, UsersService, TasksService],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}
