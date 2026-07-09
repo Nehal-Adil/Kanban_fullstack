@@ -1,5 +1,6 @@
 import { ApiProperty, PartialType } from '@nestjs/swagger';
 import { IsOptional, IsString, IsUUID } from 'class-validator';
+import { ColumnResponseDto } from '../../columns/dtos/column.dto';
 
 export class CreateBoardDto {
   @ApiProperty()
@@ -43,6 +44,9 @@ export class BoardResponseDto {
 
   @ApiProperty()
   members?: Array<{ id: string; email: string }>;
+
+  @ApiProperty({ type: [ColumnResponseDto], required: false })
+  columns?: ColumnResponseDto[];
 
   @ApiProperty()
   createdAt!: Date;

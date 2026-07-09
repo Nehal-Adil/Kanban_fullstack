@@ -86,12 +86,16 @@ export class BoardsService {
         firstName: board.owner.firstName || '',
         lastName: board.owner.lastName || '',
       },
-      members: board.members.map((m) => {
-        return {
-          id: m.id,
-          email: m.email,
-        };
-      }),
+      members: board.members.map((m) => ({
+        id: m.id,
+        email: m.email,
+      })),
+      columns: (board.columns ?? [])
+        .sort((a, b) => a.position - b.position)
+        .map((col) => ({
+          ...col,
+          tasks: (col.tasks ?? []).sort((a, b) => a.position - b.position),
+        })),
     };
   }
 
