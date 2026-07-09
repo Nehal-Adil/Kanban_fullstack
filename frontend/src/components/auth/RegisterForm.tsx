@@ -1,18 +1,19 @@
-import { useForm } from "react-hook-form";
-import { useNavigate, Link } from "react-router-dom";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import { useAuthStore } from "../../store/authStore";
-import { authService } from "../../services/auth";
-import toast from "react-hot-toast";
+import { useForm } from 'react-hook-form';
+import { useNavigate, Link } from 'react-router-dom';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import { useAuthStore } from '../../store/authStore';
+import { authService } from '../../services/auth';
+import toast from 'react-hot-toast';
+import axios from 'axios';
 
 const registerSchema = z.object({
-  email: z.email({ error: "Invalid email" }),
+  email: z.email({ error: 'Invalid email' }),
   firstName: z.string().optional(),
   lastName: z.string().optional(),
   password: z
     .string()
-    .min(6, { error: "Password must be at least 6 characters" }),
+    .min(6, { error: 'Password must be at least 6 characters' }),
 });
 
 // It automatically generates a static TypeScript type based on your runtime Zod validation schema so you don't have to write the type definitions twice.
@@ -33,10 +34,16 @@ function RegisterForm() {
     try {
       const response = await authService.register(data);
       setAuth(response.user, response.accessToken);
-      toast.success("Registration successful");
-      navigate("/boards");
-    } catch (error: any) {
-      toast.error(error.response?.data?.message || "Registration failed");
+      toast.success('Registration successful');
+      navigate('/boards');
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.error(error.response?.data?.message || error.message);
+        toast.error(error.response?.data?.message || error.message);
+      } else {
+        console.error('Different kind of error', error);
+        toast.error('Different kind of error');
+      }
     }
   };
 
@@ -49,7 +56,7 @@ function RegisterForm() {
         <div>
           <label className="block text-sm font-medium mb-1">First Name</label>
           <input
-            {...register("firstName")}
+            {...register('firstName')}
             className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="John"
           />
@@ -63,7 +70,7 @@ function RegisterForm() {
         <div>
           <label className="block text-sm font-medium mb-1">Last Name</label>
           <input
-            {...register("lastName")}
+            {...register('lastName')}
             className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="Doe"
           />
@@ -78,7 +85,7 @@ function RegisterForm() {
       <div>
         <label className="block text-sm font-medium mb-1">Email</label>
         <input
-          {...register("email")}
+          {...register('email')}
           type="email"
           className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           placeholder="john@example.com"
@@ -91,7 +98,7 @@ function RegisterForm() {
       <div>
         <label className="block text-sm font-medium mb-1">Password</label>
         <input
-          {...register("password")}
+          {...register('password')}
           type="password"
           className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           placeholder="••••••••"
@@ -106,11 +113,11 @@ function RegisterForm() {
         disabled={isSubmitting}
         className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 disabled:opacity-50"
       >
-        {isSubmitting ? "Registering..." : "Register"}
+        {isSubmitting ? 'Registering...' : 'Register'}
       </button>
 
       <p className="text-center text-sm">
-        Already have an account?{" "}
+        Already have an account?{' '}
         <Link to="/login" className="text-blue-500 hover:underline">
           Login
         </Link>

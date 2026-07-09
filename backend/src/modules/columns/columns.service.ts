@@ -3,11 +3,7 @@ import { Repository } from 'typeorm';
 import { KanbanColumn as Column } from './entities/column.entity';
 import { Board } from '../boards/entities/board.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import {
-  ColumnResponseDto,
-  CreateColumnDto,
-  UpdateColumnDto,
-} from './dtos/column.dto';
+import { CreateColumnDto, UpdateColumnDto } from './dtos/column.dto';
 
 @Injectable()
 export class ColumnsService {

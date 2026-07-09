@@ -62,7 +62,7 @@ function BoardDetailPage() {
         <p className="text-gray-600 mb-8">{board?.description}</p>
 
         <div className="flex overflow-x-auto gap-4 pb-4">
-          {board?.columns.map((column) => (
+          {(board?.columns || []).map((column) => (
             <ColumnCard
               key={column.id}
               column={column}

@@ -1,38 +1,44 @@
-import { Plus } from "lucide-react";
-import BoardCard from "../components/boards/BoardCard";
-import Navbar from "../components/common/Navbar";
-import { useEffect, useState } from "react";
-import { useBoards } from "../hooks/useBoards";
-import toast from "react-hot-toast";
-import { LoadingSpinner } from "../components/common/LoadingSpinner";
+import { Plus } from 'lucide-react';
+import BoardCard from '../components/boards/BoardCard';
+import Navbar from '../components/common/Navbar';
+import { useState } from 'react';
+import { useBoards } from '../hooks/useBoards';
+import toast from 'react-hot-toast';
+import { LoadingSpinner } from '../components/common/LoadingSpinner';
 
 function BoardsPage() {
   const [showCreateModal, setShowCreateModal] = useState(false);
-  const [newBoard, setNewBoard] = useState({ title: "", description: "" });
+  const [newBoard, setNewBoard] = useState({ title: '', description: '' });
 
-  const {
-    boards,
-    isLoading,
-    createBoard,
-    isCreating,
-    isCreateSuccess,
-    deleteBoard,
-  } = useBoards();
+  const { boards, isLoading, createBoard, isCreating, deleteBoard } =
+    useBoards();
 
-  useEffect(() => {
-    if (isCreateSuccess) {
-      setShowCreateModal(false);
-      setNewBoard({ title: "", description: "" });
-    }
-  }, [isCreateSuccess]);
+  // useEffect(() => {
+  //   if (isCreateSuccess) {
+  //     setShowCreateModal(false);
+  //     setNewBoard({ title: '', description: '' });
+  //   }
+  // }, [isCreateSuccess]);
 
-  const handleCreate = (e: React.SubmitEvent) => {
+  const handleCreate = async (e: React.SubmitEvent) => {
     e.preventDefault();
     if (!newBoard.title.trim()) {
-      toast.error("Board title required");
+      toast.error('Board title required');
       return;
     }
-    createBoard(newBoard);
+
+    try {
+      await createBoard(newBoard);
+      setShowCreateModal(false);
+      setNewBoard({ title: '', description: '' });
+      toast.success('Board created!');
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      } else {
+        toast.error('Failed to create board');
+      }
+    }
   };
 
   return (
@@ -127,7 +133,7 @@ function BoardsPage() {
                     disabled={isCreating}
                     className="flex-1 px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 disabled:opacity-50"
                   >
-                    {isCreating ? "Creating..." : "Create"}
+                    {isCreating ? 'Creating...' : 'Create'}
                   </button>
                 </div>
               </form>

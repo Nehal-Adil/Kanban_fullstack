@@ -109,6 +109,9 @@ export class TasksService {
   async assignUser(taskId: string, userId: string): Promise<TaskResponseDto> {
     const task = await this.findById(taskId);
     const user = await this.userRespository.findOne({ where: { id: userId } });
+    if (!task) {
+      throw new NotFoundException('Task not found');
+    }
     if (!user) {
       throw new NotFoundException('User not found');
     }

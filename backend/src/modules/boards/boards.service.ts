@@ -67,6 +67,7 @@ export class BoardsService {
       relations: {
         owner: true,
         members: true,
+        columns: { tasks: true },
       },
     });
     if (!board) {
